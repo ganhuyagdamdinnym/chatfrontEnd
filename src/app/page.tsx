@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { ButtonDemo } from './components/button';
 import { Title } from './components/title';
 
 export default function Chat() {
@@ -10,11 +11,7 @@ export default function Chat() {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-
-    // Add user message
     setMessages([...messages, { sender: 'You', text: input }]);
-
-    // Send to backend
     try {
       const res = await fetch('http://127.0.0.1:8000/chat', {
         method: 'POST',
@@ -25,10 +22,9 @@ export default function Chat() {
       setMessages((prev) => [...prev, { sender: 'Bot', text: data.reply }]);
       setInput('');
     } catch {
+        setInput('');
       console.log('failed fetch');
     }
-
-    // Add bot reply
   };
 
   return (
@@ -39,7 +35,7 @@ export default function Chat() {
           <div
             key={i}
             className={
-              msg.sender === 'You' ? 'text-blue-600' : 'text-green-600'
+              msg.sender === 'You' ? 'text-black' : 'text-black'
             }
           >
             <strong>{msg.sender}: </strong>
@@ -47,19 +43,14 @@ export default function Chat() {
           </div>
         ))}
       </div>
-      <div className="flex mt-2">
+      <div className="flex mt-2 items-center gap-2">
         <input
           className="flex-1 border rounded p-4"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
         />
-        <button
-          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded"
-          onClick={sendMessage}
-        >
-          Send
-        </button>
+        <ButtonDemo sendMessage={sendMessage} />
       </div>
     </div>
   );
