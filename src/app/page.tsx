@@ -32,16 +32,18 @@ export default function Chat() {
     }
   };
 
-  if (!mounted) return null; // ⛔ prevents SSR/CSR mismatch
+  if (!mounted) return null; 
 
   return (
     <div className="w-screen h-screen flex flex-col gap-4">
       <Title />
       <div className="border rounded p-4 h-80 overflow-y-auto">
         {messages.map((msg, i) => (
-          <div key={i} className="text-black">
-            <strong>{msg.sender}: </strong>
-            {msg.text}
+          <div
+            key={i}
+            className={`flex mb-2 ${msg.sender === 'You' ? 'flex-row-reverse' : 'flex-row'}`}
+           >
+            <strong>{msg.sender}</strong> <h1>:</h1> {msg.text}
           </div>
         ))}
       </div>

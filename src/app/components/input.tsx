@@ -4,12 +4,11 @@ import { Input } from "@/components/ui/input"
 // value:string;
 // setInput: (value: SetStateAction<string>) => void;
 // sendMessage: () => Promise<void>
-// }
-
+// }     
+       
 export function InputDemo(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <Input
-      type="text"
       placeholder="enter your question"
       {...props}
     />
