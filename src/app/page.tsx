@@ -7,28 +7,32 @@ import { InputDemo } from './components/input';
 
 export default function Chat() {
   const [messages, setMessages] = useState<{ sender: string; text: string }[]>([]);
-  const [input, setInput] = useState('');
+  const   [input, setInput] = useState('');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+
+    
+       setMounted(true);
   }, []);
 
-  const sendMessage = async () => {
-    if (!input.trim()) return;
+  const sendMessage =  async () => {
+      if (!input.trim()) return;
     setMessages((prev) => [...prev, { sender: 'You', text: input }]);
     try {
-      const res = await fetch('http://127.0.0.1:8000/chat', {
+      const res = await fetch('https://daimaa0423.app.n8n.cloud/webhook/self-driving-assignment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: input }),
       });
       const data = await res.json();
-      setMessages((prev) => [...prev, { sender: 'Bot', text: data.reply }]);
+console.log("data", data[0].output);
+setMessages((prev) => [...prev, { sender: 'Bot', text: data[0].output }]);
+
       setInput('');
     } catch {
       setInput('');
-      console.log('failed fetch');
+      console.log(Response.error);
     }
   };
 
